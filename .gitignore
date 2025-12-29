@@ -1,1 +1,5 @@
 /.idea/
+/.phpunit.cache/
+/vendor/
+phpstan.neon
+phpunit.xml
