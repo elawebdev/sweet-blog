@@ -18,7 +18,7 @@ final readonly class SweetBlog
     {
         $view = new View($this->rootDirectory . '/views');
 
-        echo 'Hello, world!';
+        echo $view->render('home');
     }
 
     private function checkRootDirectoryPath(): void
