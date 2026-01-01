@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SweetBlog;
 
+use SweetBlog\Core\Database\DatabaseCredentials;
+use SweetBlog\Core\Database\DatabaseHandler;
 use SweetBlog\Core\View;
 
 final readonly class SweetBlog
@@ -16,6 +18,9 @@ final readonly class SweetBlog
 
     public function init(): void
     {
+        $databaseHandler = new DatabaseHandler(new DatabaseCredentials());
+        $databaseHandler->connect();
+
         $view = new View($this->rootDirectory . '/views');
 
         echo $view->render('home');
