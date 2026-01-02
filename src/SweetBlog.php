@@ -6,6 +6,7 @@ namespace SweetBlog;
 
 use SweetBlog\Core\Database\DatabaseCredentials;
 use SweetBlog\Core\Database\DatabaseHandler;
+use SweetBlog\Core\Http\Kernel;
 use SweetBlog\Core\View;
 
 final readonly class SweetBlog
@@ -23,7 +24,8 @@ final readonly class SweetBlog
 
         $view = new View($this->rootDirectory . '/views');
 
-        echo $view->render('home');
+        $response = new Kernel($databaseHandler, $view)->run();
+        $response->send();
     }
 
     private function checkRootDirectoryPath(): void
