@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace SweetBlog\Core\Http;
 
-use SweetBlog\Controllers\HomeController;
+use SweetBlog\Controllers\Controller;
+use SweetBlog\Controllers\NotFoundController;
 use SweetBlog\Core\Database\DatabaseHandler;
+use SweetBlog\Core\Routing\RouteNotFoundException;
+use SweetBlog\Core\Routing\Router;
+use SweetBlog\Core\Routing\Routes;
 use SweetBlog\Core\View;
 
 final readonly class Kernel
@@ -17,7 +21,25 @@ final readonly class Kernel
 
     public function run(): Response
     {
-        $controllerInstance = new HomeController($this->databaseHandler, $this->view);
+        $request = new Request();
+        $routes = new Routes();
+        $router = new Router($routes, $request);
+
+        try {
+            $controllerClass = $router->match();
+        } catch (RouteNotFoundException) {
+            $controllerClass = NotFoundController::class;
+        }
+
+        if (!class_exists($controllerClass)) {
+            throw new \LogicException(sprintf('Missing controller class: %s', $controllerClass));
+        }
+
+        $controllerInstance = new $controllerClass($this->databaseHandler, $this->view);
+
+        if (!$controllerInstance instanceof Controller) {
+            throw new \LogicException(sprintf('Controller class must implement "%s"', Controller::class));
+        }
 
         return $controllerInstance->run();
     }
