@@ -9,6 +9,7 @@ use SweetBlog\Core\Http\Body;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\View;
+use SweetBlog\Core\ViewData\HomeData;
 
 final readonly class HomeController implements Controller
 {
@@ -19,7 +20,9 @@ final readonly class HomeController implements Controller
 
     public function run(): Response
     {
-        $content = $this->view->render('home');
+        $viewData = new HomeData(title: 'Sweet Blog');
+
+        $content = $this->view->render('home', $viewData);
 
         $body = new Body($content);
 

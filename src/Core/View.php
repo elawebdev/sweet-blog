@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SweetBlog\Core;
 
+use SweetBlog\Core\ViewData\ViewData;
+
 final readonly class View
 {
     const string FILE_EXTENSION = '.php';
@@ -14,7 +16,7 @@ final readonly class View
         $this->checkViewsDirectoryPath();
     }
 
-    public function render(string $viewFileName): string
+    public function render(string $viewFileName, ViewData $viewData): string
     {
         $viewFile = $this->getViewFilePath($viewFileName);
 

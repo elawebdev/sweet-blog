@@ -1,3 +1,15 @@
+<?php
+
+use SweetBlog\Core\ViewData\HomeData;
+
+if (!isset($viewData)) {
+    throw new \LogicException('Missing view data transfer object.');
+}
+
+if (!$viewData instanceof HomeData) {
+    throw new \LogicException('Invalid view data transfer object.');
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>

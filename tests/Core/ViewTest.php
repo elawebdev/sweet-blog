@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use SweetBlog\Core\View;
+use Tests\Fixtures\ViewData\ViewTestData;
 
 #[CoversClass(View::class)]
 final class ViewTest extends TestCase
@@ -36,7 +37,9 @@ final class ViewTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(sprintf('Missing view file "%s".', $viewFileName));
 
-        new View($this->testViewsDirectory)->render($viewFileName);
+        $viewData = new ViewTestData(title: '');
+
+        new View($this->testViewsDirectory)->render($viewFileName, $viewData);
     }
 
     #[TestWith(['test_view'])]
@@ -56,8 +59,10 @@ final class ViewTest extends TestCase
         </html>
         HTML;
 
+        $viewData = new ViewTestData(title: 'Test View');
+
         $view = new View($this->testViewsDirectory);
-        $actualContent = $view->render($viewFileName) |> trim(...);
+        $actualContent = $view->render($viewFileName, $viewData) |> trim(...);
 
         $this->assertSame($expectedContent, $actualContent);
     }
