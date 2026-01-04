@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace SweetBlog\Core\ViewData;
 
+use SweetBlog\Utils\Html;
+
 final class NotFoundData implements ViewData
 {
     public private(set) string $title = '' {
         get {
-            return htmlentities($this->title, ENT_QUOTES, 'UTF-8');
+            return Html::escape($this->title);
         }
         set(string $value) {
             $this->title = trim($value);
@@ -17,7 +19,7 @@ final class NotFoundData implements ViewData
 
     public private(set) string $message = '' {
         get {
-            return htmlentities($this->message, ENT_QUOTES, 'UTF-8');
+            return Html::escape($this->message);
         }
         set(string $value) {
             $this->message = trim($value);
