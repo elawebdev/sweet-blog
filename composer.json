@@ -1,0 +1,21 @@
+{
+    "name": "elawebdev/sweet-blog",
+    "description": "A sweet blogging application.",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Daniela kleemann",
+            "email": "dani@elaweb.dev"
+        }
+    ],
+    "require": {
+        "php": "^8.5"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "SweetBlog\\": "src/"
+        }
+    }
+}
