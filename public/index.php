@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use SweetBlog\Application;
 use SweetBlog\Autoloader;
 
 require __DIR__ . '/../src/Autoloader.php';
@@ -9,4 +10,5 @@ require __DIR__ . '/../src/Autoloader.php';
 $autoloader = new Autoloader();
 $autoloader->register();
 
-echo 'Hello, world!';
+$application = new Application();
+$application->run();
