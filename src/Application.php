@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SweetBlog;
 
+use SweetBlog\Core\Container\Container;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\Router\Dispatcher;
 use SweetBlog\Core\Router\Exceptions\RouteNotFoundException;
@@ -16,9 +17,11 @@ final class Application
 {
     public function run(): void
     {
+        $container = new Container();
+
         try {
             $handler = new Resolver()->match();
-            $response = new Dispatcher($handler)->dispatch();
+            $response = new Dispatcher($handler, $container)->dispatch();
             $response->send();
         } catch (RouteNotFoundException) {
             http_response_code(StatusCode::NotFound->value);
