@@ -21,7 +21,7 @@ final class Application
 
         try {
             $handler = new Resolver()->match();
-            $response = new Dispatcher($handler, $container)->dispatch();
+            $response = new Dispatcher($container)->dispatch($handler);
             $response->send();
         } catch (RouteNotFoundException) {
             http_response_code(StatusCode::NotFound->value);

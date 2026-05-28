@@ -16,21 +16,20 @@ use SweetBlog\Core\Router\Exceptions\MissingHandlerInterfaceException;
 final readonly class Dispatcher
 {
     public function __construct(
-        private string $handler,
         private Container $container,
-    ) {
-        if (!class_exists($this->handler)) {
+    ) {}
+
+    public function dispatch(string $handler): Response
+    {
+        if (!class_exists($handler)) {
             throw new MissingHandlerClassFileException($handler);
         }
 
-        if (!is_subclass_of($this->handler, Handler::class)) {
+        if (!is_subclass_of($handler, Handler::class)) {
             throw new MissingHandlerInterfaceException($handler);
         }
-    }
 
-    public function dispatch(): Response
-    {
-        $handlerInstance = $this->container->make($this->handler);
+        $handlerInstance = $this->container->make($handler);
 
         return $handlerInstance->execute();
     }
