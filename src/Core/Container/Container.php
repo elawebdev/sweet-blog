@@ -20,19 +20,30 @@ use SweetBlog\Core\Container\Exceptions\UnionTypeNotSupportedException;
 final class Container
 {
     /**
-     * @var array<string, callable> Explicit bindings
+     * @var array<string, callable(Container): mixed>
      */
     private array $bindings = [];
 
+    /**
+     * Binds a factory method to a given ID.
+     *
+     * @param string $id Class name
+     * @param callable(Container): mixed $factory Factory method
+     */
     public function bind(string $id, callable $factory): void
     {
         $this->bindings[$id] = $factory;
     }
 
     /**
-     * @param class-string $id
+     * Returns an instance of the given class from the container or autowires it.
+     *
+     * @template T of object
+     * @param string|class-string<T> $id Class name
+     *
+     * @return ($id is class-string<T> ? T : object)
      */
-    public function make(string $id): mixed
+    public function make(string $id): object
     {
         if (array_key_exists($id, $this->bindings)) {
             $instance = $this->bindings[$id]($this);
@@ -44,20 +55,21 @@ final class Container
             return $instance;
         }
 
+        /** @var class-string<object> $id */
         return $this->autowire($id);
     }
 
     /**
-     * @param class-string $id
+     * Automatically instantiates the given class with its dependencies.
+     *
+     * @template T of object
+     * @param class-string<T> $id Class name
+     *
+     * @return T
      */
     private function autowire(string $id): object
     {
-        // TODO: PHPStan complains about dead catch block.
-        try {
-            $reflector = new ReflectionClass($id);
-        } catch (ReflectionException $e) {
-            throw new ContainerException($e->getMessage());
-        }
+        $reflector = new ReflectionClass($id);
 
         if (!$reflector->isInstantiable()) {
             throw new NotInstantiableException($id);
@@ -88,13 +100,7 @@ final class Container
             }
 
             if ($type instanceof ReflectionNamedType && !$type->isBuiltin()) {
-                // TODO: Resolve static analysis error in a better way.
-                /**
-                 * @var class-string $typeName
-                 */
-                $typeName = $type->getName();
-
-                return $this->make($typeName);
+                return $this->make($type->getName());
             }
 
             throw new ContainerException(sprintf('Parameter %s in %s has an unsupported type.', $name, $id));
