@@ -21,7 +21,11 @@ final readonly class HomeHandler implements Handler
 
     public function execute(): Response
     {
-        $content = $this->view->render('home');
+        $data = new HomeData(
+            title: 'Home Page',
+        );
+
+        $content = $this->view->render('home', $data);
 
         $body = new Body($content);
 
