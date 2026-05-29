@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SweetBlog;
 
 use SweetBlog\Core\Container\Container;
+use SweetBlog\Core\Database\Database;
+use SweetBlog\Core\Database\DatabaseConfig;
 use SweetBlog\Core\Dotenv\DotenvParser;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\Router\Dispatcher;
@@ -26,8 +28,13 @@ final readonly class Application
         $dotenvParser = new DotenvParser();
         $dotenvParser->parse("$this->rootDirectory/.env");
 
+        $databaseConfig = new DatabaseConfig();
+        $database = new Database($databaseConfig);
+        $database->connect();
+
         $container = new Container();
         $container->bind(View::class, fn() => new View("$this->rootDirectory/templates"));
+        $container->bind(Database::class, fn() => $database);
 
         try {
             $handler = new Resolver()->match();
