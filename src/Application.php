@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SweetBlog;
 
 use SweetBlog\Core\Container\Container;
+use SweetBlog\Core\Dotenv\DotenvParser;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\Router\Dispatcher;
 use SweetBlog\Core\Router\Exceptions\RouteNotFoundException;
@@ -22,6 +23,9 @@ final readonly class Application
 
     public function run(): void
     {
+        $dotenvParser = new DotenvParser();
+        $dotenvParser->parse("$this->rootDirectory/.env");
+
         $container = new Container();
         $container->bind(View::class, fn() => new View("$this->rootDirectory/templates"));
 
