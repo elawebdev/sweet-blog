@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SweetBlog\Core\Router;
 
+use SweetBlog\Core\Container\Container;
 use SweetBlog\Core\Handler;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Router\Exceptions\MissingHandlerClassFileException;
@@ -15,20 +16,20 @@ use SweetBlog\Core\Router\Exceptions\MissingHandlerInterfaceException;
 final readonly class Dispatcher
 {
     public function __construct(
-        private string $handler,
-    ) {
-        if (!class_exists($this->handler)) {
+        private Container $container,
+    ) {}
+
+    public function dispatch(string $handler): Response
+    {
+        if (!class_exists($handler)) {
             throw new MissingHandlerClassFileException($handler);
         }
 
-        if (!is_subclass_of($this->handler, Handler::class)) {
+        if (!is_subclass_of($handler, Handler::class)) {
             throw new MissingHandlerInterfaceException($handler);
         }
-    }
 
-    public function dispatch(): Response
-    {
-        $handlerInstance = new $this->handler();
+        $handlerInstance = $this->container->make($handler);
 
         return $handlerInstance->execute();
     }
