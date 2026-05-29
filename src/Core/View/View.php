@@ -13,7 +13,7 @@ final readonly class View
         private string $templateDirectory,
     ) {}
 
-    public function render(string $template): string
+    public function render(string $template, ViewData $data): string
     {
         $templateFile = "$this->templateDirectory/$template.php";
 
