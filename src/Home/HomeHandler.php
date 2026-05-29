@@ -8,15 +8,24 @@ use SweetBlog\Core\Handler;
 use SweetBlog\Core\Http\Body;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Http\StatusCode;
+use SweetBlog\Core\View\View;
 
 /**
  * Home page handler.
  */
-final class HomeHandler implements Handler
+final readonly class HomeHandler implements Handler
 {
+    public function __construct(
+        private View $view,
+    ) {}
+
     public function execute(): Response
     {
-        $content = 'Hello, world!';
+        $data = new HomeData(
+            title: 'Home Page',
+        );
+
+        $content = $this->view->render('home', $data);
 
         $body = new Body($content);
 

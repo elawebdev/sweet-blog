@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+use SweetBlog\Core\View\Exceptions\InvalidViewData;
+use SweetBlog\Core\View\Exceptions\MissingViewDataException;
+use SweetBlog\Home\HomeData;
+
+if (!isset($data)) {
+    throw new MissingViewDataException();
+}
+
+if (!$data instanceof HomeData) {
+    throw new InvalidViewData();
+}
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $data->title ?>></title>
+</head>
+<body>
+<h1><?= $data->title ?></h1>
+<p>Hello, world!</p>
+</body>
+</html>
