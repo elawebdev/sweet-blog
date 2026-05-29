@@ -13,8 +13,12 @@ use SweetBlog\Core\Router\Resolver;
 /**
  * Initializes and runs the application.
  */
-final class Application
+final readonly class Application
 {
+    public function __construct(
+        private string $rootDirectory,
+    ) {}
+
     public function run(): void
     {
         $container = new Container();
