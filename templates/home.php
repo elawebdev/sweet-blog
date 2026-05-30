@@ -23,6 +23,18 @@ if (!$data instanceof HomeData) {
 </head>
 <body>
 <h1><?= $data->title ?></h1>
-<p>Hello, world!</p>
+<section>
+    <?php if ($data->postList === []): ?>
+        <p>No posts were found.</p>
+    <?php else: ?>
+        <nav>
+            <ul>
+                <?php foreach ($data->postList as $postListItem): ?>
+                    <li><a href="/<?= $postListItem->slug ?>"><?= $postListItem->title ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+    <?php endif; ?>
+</section>
 </body>
 </html>
