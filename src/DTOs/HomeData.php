@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SweetBlog\Home;
+namespace SweetBlog\DTOs;
 
 use SweetBlog\Core\View\ViewData;
 use SweetBlog\Entities\PostListItemEntity;

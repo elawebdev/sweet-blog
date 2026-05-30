@@ -8,7 +8,7 @@ use SweetBlog\Core\Http\Body;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\View\View;
-use SweetBlog\Home\HomeData;
+use SweetBlog\DTOs\HomeData;
 use SweetBlog\Repositories\PostListRepository;
 
 /**
