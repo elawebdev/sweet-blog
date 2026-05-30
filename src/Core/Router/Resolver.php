@@ -13,8 +13,8 @@ use SweetBlog\Core\Router\Exceptions\RouteNotFoundException;
 final readonly class Resolver
 {
     public function __construct(
-        private Routes $routes = new Routes(),
-        private Request $request = new Request(),
+        private Routes $routes,
+        private Request $request,
     ) {}
 
     /**

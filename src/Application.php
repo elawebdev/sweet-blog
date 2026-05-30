@@ -8,10 +8,12 @@ use SweetBlog\Core\Container\Container;
 use SweetBlog\Core\Database\Database;
 use SweetBlog\Core\Database\DatabaseConfig;
 use SweetBlog\Core\Dotenv\DotenvParser;
+use SweetBlog\Core\Http\Request;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\Router\Dispatcher;
 use SweetBlog\Core\Router\Exceptions\RouteNotFoundException;
 use SweetBlog\Core\Router\Resolver;
+use SweetBlog\Core\Router\Routes;
 use SweetBlog\Core\View\View;
 
 /**
@@ -32,12 +34,15 @@ final readonly class Application
         $database = new Database($databaseConfig);
         $database->connect();
 
+        $request = new Request();
+
         $container = new Container();
+        $container->bind(Request::class, fn() => $request);
         $container->bind(View::class, fn() => new View("$this->rootDirectory/templates"));
         $container->bind(Database::class, fn() => $database);
 
         try {
-            $handler = new Resolver()->match();
+            $handler = new Resolver(new Routes(), $request)->match();
             $response = new Dispatcher($container)->dispatch($handler);
             $response->send();
         } catch (RouteNotFoundException) {
