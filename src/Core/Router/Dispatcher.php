@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SweetBlog\Core\Router;
 
 use SweetBlog\Core\Container\Container;
-use SweetBlog\Core\Handler;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Router\Exceptions\MissingHandlerClassFileException;
 use SweetBlog\Core\Router\Exceptions\MissingHandlerInterfaceException;
+use SweetBlog\Handlers\Handler;
 
 /**
  * Invokes the given handler.

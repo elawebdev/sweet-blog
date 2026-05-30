@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SweetBlog\Core;
+namespace SweetBlog\Handlers;
 
 use SweetBlog\Core\Http\Response;
 
