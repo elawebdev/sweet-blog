@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use SweetBlog\Core\View\Exceptions\InvalidViewData;
 use SweetBlog\Core\View\Exceptions\MissingViewDataException;
-use SweetBlog\Home\HomeData;
+use SweetBlog\DTOs\HomeData;
 
 if (!isset($data)) {
     throw new MissingViewDataException();
