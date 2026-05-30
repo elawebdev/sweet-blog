@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SweetBlog\Home;
+namespace SweetBlog\Handlers;
 
 use SweetBlog\Core\Http\Body;
 use SweetBlog\Core\Http\Response;
 use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\View\View;
-use SweetBlog\Handlers\Handler;
+use SweetBlog\Home\HomeData;
 use SweetBlog\Repositories\PostListRepository;
 
 /**

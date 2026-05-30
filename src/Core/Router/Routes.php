@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SweetBlog\Core\Router;
 
 use SweetBlog\Core\Http\Method;
-use SweetBlog\Home\HomeHandler;
+use SweetBlog\Handlers;
 
 /**
  * Collection of routes.
@@ -23,8 +23,8 @@ final readonly class Routes
     public function __construct()
     {
         $this->routeList = [
-            new Route(Method::GET, '#^/$#', HomeHandler::class),
-            new Route(Method::HEAD, '#^/$#', HomeHandler::class),
+            new Route(Method::GET, '#^/$#', Handlers\HomeHandler::class),
+            new Route(Method::HEAD, '#^/$#', Handlers\HomeHandler::class),
         ];
     }
 }
