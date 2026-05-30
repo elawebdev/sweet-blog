@@ -25,6 +25,8 @@ final readonly class Routes
         $this->routeList = [
             new Route(Method::GET, '#^/$#', Handlers\HomeHandler::class),
             new Route(Method::HEAD, '#^/$#', Handlers\HomeHandler::class),
+            new Route(Method::GET, '#^/post/([A-Za-z0-9_\-\#]+)$#', Handlers\PostHandler::class),
+            new Route(Method::HEAD, '#^/post/([A-Za-z0-9_\-\#]+)$#', Handlers\PostHandler::class),
         ];
     }
 }
