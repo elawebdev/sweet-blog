@@ -13,6 +13,7 @@ use SweetBlog\Core\Http\StatusCode;
 use SweetBlog\Core\Router\Dispatcher;
 use SweetBlog\Core\Router\Exceptions\RouteNotFoundException;
 use SweetBlog\Core\Router\Resolver;
+use SweetBlog\Core\Router\Routes;
 use SweetBlog\Core\View\View;
 
 /**
@@ -41,7 +42,7 @@ final readonly class Application
         $container->bind(Database::class, fn() => $database);
 
         try {
-            $handler = new Resolver()->match();
+            $handler = new Resolver(new Routes(), $request)->match();
             $response = new Dispatcher($container)->dispatch($handler);
             $response->send();
         } catch (RouteNotFoundException) {
