@@ -16,7 +16,9 @@ final readonly class PostRepository
 
     public function fetchPost(string $slug): PostEntity|false
     {
-        $stmt = $this->database->pdo->prepare('SELECT * FROM posts WHERE slug = :slug LIMIT 1;');
+        $stmt = $this->database->pdo->prepare(
+            'SELECT title, content, posts.created_at, users.handle FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE slug = :slug LIMIT 1;',
+        );
         $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
         $stmt->execute();
 
